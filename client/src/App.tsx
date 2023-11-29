@@ -1,11 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Feed from "./components/Feed";
+import Login from "./components/Login";
 
 function App() {
-
   return (
-    <div className="text-3xl">
-      Hello
+    <div className="">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Feed />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

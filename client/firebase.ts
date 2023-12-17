@@ -1,5 +1,5 @@
 import firebase from 'firebase/compat/app'
-import { GoogleAuthProvider, getAuth } from 'firebase/auth'
+import { EmailAuthProvider, getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqIutAbQ-u7zRJLegMA3ipkECx9X1FsOE",
@@ -12,5 +12,5 @@ const firebaseConfig = {
 };
 
 export const app = firebase.initializeApp(firebaseConfig);
-export const provider = new GoogleAuthProvider();
+export const provider = new EmailAuthProvider();
 export const auth = getAuth()

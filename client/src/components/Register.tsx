@@ -1,15 +1,19 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 // import { useState, useEffect } from "react";
 import { FaLock, FaRegUser } from "react-icons/fa";
+import { User } from "../types/User";
+import { auth } from "../../firebase";
+import "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
-  // const [form] = Form.useForm();
-  // const [clientReady, setClientReady] = useState(false);
-
-  // disabling submit button on beginning
-  // useEffect(() => {
-  //   setClientReady(true);
-  // }, []);
+  const handleSubmit = async (values: User) => {
+    createUserWithEmailAndPassword(auth, values.email, values.password)
+      .then((user) => {
+        console.log(user);
+      })
+      .catch((err) => alert(err.message));
+  };
 
   return (
     <>
@@ -18,16 +22,28 @@ const Login = () => {
       </div>
       <div className="w-[30%] m-auto shadow-lg p-10 rounded-lg">
         <h4 className="text-center text-sm mt-2 text-[#017BB5] font-semibold tracking-wide">
-          Login to LinkedIn to get Job Posts
+          Create an account in LinkedIn to get Job Posts
         </h4>
 
         <Form
-          name="login_form"
+          name="register_form"
           className="my-10"
           initialValues={{
             remember: true,
           }}
+          onFinish={handleSubmit}
         >
+          <Form.Item
+            name="userName"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username !",
+              },
+            ]}
+          >
+            <Input prefix={<FaRegUser />} placeholder="Username" />
+          </Form.Item>
           <Form.Item
             name="email"
             rules={[
@@ -50,23 +66,19 @@ const Login = () => {
           >
             <Input prefix={<FaLock />} type="password" placeholder="Password" />
           </Form.Item>
-          <Form.Item>
-            <Form.Item name="remember" valuePropName="checked">
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
-            <a className="text-xs text-blue-600 hover:underline" href="">
-              Forgot password ?
-            </a>
-          </Form.Item>
+
           <Form.Item>
             <Button
               type="default"
               htmlType="submit"
               className="mx-auto w-full mb-6"
             >
-              Log in
+              Register
             </Button>
-            Or <a href="/register">register now!</a>
+            Or{" "}
+            <a href="/register" className="text-blue-500 underline">
+              Already Registered ?
+            </a>
           </Form.Item>
         </Form>
       </div>

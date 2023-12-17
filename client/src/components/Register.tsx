@@ -1,18 +1,29 @@
 import { Button, Form, Input } from "antd";
-// import { useState, useEffect } from "react";
-import { FaLock, FaRegUser } from "react-icons/fa";
+import { FaGoogle, FaLock, FaRegUser } from "react-icons/fa";
 import { User } from "../types/User";
 import { auth } from "../../firebase";
 import "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const handleSubmit = async (values: User) => {
     createUserWithEmailAndPassword(auth, values.email, values.password)
       .then((user) => {
+        Swal.fire({
+          title: "User Created !",
+          text: "New user has been created ! ",
+          icon: "success",
+        });
         console.log(user);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) =>
+        Swal.fire({
+          title: "Error !",
+          text: err.message,
+          icon: "error",
+        })
+      );
   };
 
   return (
@@ -71,10 +82,17 @@ const Login = () => {
             <Button
               type="default"
               htmlType="submit"
-              className="mx-auto w-full mb-6"
+              className="mx-auto w-full mb-2"
             >
               Register
             </Button>
+            <div className="text-sm text-center flex flex-col gap-2">
+              OR
+              <Button className="flex py-4 items-center gap-3 bg-blue-500 text-white hover:bg-white mb-5">
+                <FaGoogle className="w-5 h-5 ml-[23%]" />
+                Continue With Google
+              </Button>
+            </div>
             Or{" "}
             <a href="/register" className="text-blue-500 underline">
               Already Registered ?

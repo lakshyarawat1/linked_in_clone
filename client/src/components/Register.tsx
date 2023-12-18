@@ -1,9 +1,9 @@
 import { Button, Form, Input } from "antd";
 import { FaGoogle, FaLock, FaRegUser } from "react-icons/fa";
 import { User } from "../types/User";
-import { auth } from "../../firebase";
+import { auth, provider } from "../../firebase";
 import "firebase/auth";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import Swal from "sweetalert2";
 
 const Login = () => {
@@ -24,6 +24,26 @@ const Login = () => {
           icon: "error",
         })
       );
+  };
+
+  const handleGoogleLogin = async () => {
+    signInWithPopup(auth, provider)
+      .then((user) => {
+        Swal.fire({
+          title: "User Created !",
+          text: "New user has been created ! ",
+          icon: "success",
+        });
+        console.log(user);
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Error !",
+          text: err.message,
+          icon: "error",
+        });
+        console.log(err.message);
+      });
   };
 
   return (
@@ -88,13 +108,16 @@ const Login = () => {
             </Button>
             <div className="text-sm text-center flex flex-col gap-2">
               OR
-              <Button className="flex py-4 items-center gap-3 bg-blue-500 text-white hover:bg-white mb-5">
+              <Button
+                className="flex py-4 items-center gap-3 bg-blue-500 text-white hover:bg-white mb-5"
+                onClick={handleGoogleLogin}
+              >
                 <FaGoogle className="w-5 h-5 ml-[23%]" />
                 Continue With Google
               </Button>
             </div>
             Or{" "}
-            <a href="/register" className="text-blue-500 underline">
+            <a href="/login" className="text-blue-500 underline">
               Already Registered ?
             </a>
           </Form.Item>

@@ -1,15 +1,34 @@
 import { Button, Checkbox, Form, Input } from "antd";
-// import { useState, useEffect } from "react";
 import { FaLock, FaRegUser } from "react-icons/fa";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
+import Swal from "sweetalert2";
+
+interface loginProps {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
-  // const [form] = Form.useForm();
-  // const [clientReady, setClientReady] = useState(false);
-
-  // disabling submit button on beginning
-  // useEffect(() => {
-  //   setClientReady(true);
-  // }, []);
+  const handleLogin = async (values: loginProps) => {
+    signInWithEmailAndPassword(auth, values.email, values.password)
+      .then((user) => {
+        Swal.fire({
+          title: "Logged In Successfully",
+          icon: "success",
+          timer: 2000,
+        });
+        console.log(user);
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Error",
+          text: err.message,
+          icon: "error",
+          timer: 2000,
+        });
+      });
+  };
 
   return (
     <>
@@ -27,6 +46,7 @@ const Login = () => {
           initialValues={{
             remember: true,
           }}
+          onFinish={handleLogin}
         >
           <Form.Item
             name="email"

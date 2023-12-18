@@ -1,5 +1,6 @@
-import firebase from 'firebase/compat/app'
-import { EmailAuthProvider, getAuth } from 'firebase/auth'
+import { browserPopupRedirectResolver, browserSessionPersistence, initializeAuth } from 'firebase/auth'
+import { GoogleAuthProvider } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqIutAbQ-u7zRJLegMA3ipkECx9X1FsOE",
@@ -11,6 +12,9 @@ const firebaseConfig = {
   measurementId: "G-9PF7ZVFX3S",
 };
 
-export const app = firebase.initializeApp(firebaseConfig);
-export const provider = new EmailAuthProvider();
-export const auth = getAuth()
+export const app = initializeApp(firebaseConfig);
+export const provider = new GoogleAuthProvider();
+export const auth = initializeAuth(app,{
+  persistence: browserSessionPersistence,
+  popupRedirectResolver: browserPopupRedirectResolver,
+})

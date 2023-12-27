@@ -1,20 +1,35 @@
 import { Button, Form, Input } from "antd";
 import { FaGoogle, FaLock, FaRegUser } from "react-icons/fa";
 import { User } from "../types/User";
-import { auth, provider } from "../../firebase";
 import "firebase/auth";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import Swal from "sweetalert2";
+import { signUpWithEmail, googleLogin } from "../api/AuthAPi";
+import { postUserData } from "../api/FirebaseAPI";
+import { getUniqueId } from "../utils/getUniqueId";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const handleSubmit = async (values: User) => {
-    createUserWithEmailAndPassword(auth, values.email, values.password)
+    signUpWithEmail(values)
       .then((user) => {
         Swal.fire({
           title: "User Created !",
           text: "New user has been created ! ",
           icon: "success",
         });
+        postUserData({
+          id: getUniqueId(),
+          email: values.email,
+          imageLink:
+            "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+          username: values.username,
+          password: "Not accessable",
+          createdAt: Date(),
+          updatedAt: "",
+        });
+        navigate("/feed");
         console.log(user);
       })
       .catch((err) =>
@@ -27,14 +42,23 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async () => {
-    signInWithPopup(auth, provider)
+    googleLogin()
       .then((user) => {
         Swal.fire({
           title: "User Created !",
           text: "New user has been created ! ",
           icon: "success",
         });
-        console.log(user);
+        postUserData({
+          id: getUniqueId(),
+          email: user.user.email,
+          imageLink: user.user.photoURL,
+          username: user.user.displayName,
+          password: "Not accessable",
+          createdAt: Date(),
+          updatedAt: "",
+        });
+        navigate("/feed");
       })
       .catch((err) => {
         Swal.fire({
@@ -55,7 +79,6 @@ const Login = () => {
         <h4 className="text-center text-sm mt-2 text-[#017BB5] font-semibold tracking-wide">
           Create an account in LinkedIn to get Job Posts
         </h4>
-
         <Form
           name="register_form"
           className="my-10"
@@ -122,6 +145,8 @@ const Login = () => {
             </a>
           </Form.Item>
         </Form>
+        OR
+        <div></div>
       </div>
     </>
   );

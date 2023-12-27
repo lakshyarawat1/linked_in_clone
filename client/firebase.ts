@@ -1,6 +1,8 @@
 import { browserPopupRedirectResolver, browserSessionPersistence, initializeAuth } from 'firebase/auth'
 import { GoogleAuthProvider } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqIutAbQ-u7zRJLegMA3ipkECx9X1FsOE",
@@ -18,3 +20,5 @@ export const auth = initializeAuth(app,{
   persistence: browserSessionPersistence,
   popupRedirectResolver: browserPopupRedirectResolver,
 })
+export const firestore = getFirestore(app);
+export const storage = getStorage(app);

@@ -1,8 +1,7 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import { FaGoogle, FaLock, FaRegUser } from "react-icons/fa";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../../firebase";
 import Swal from "sweetalert2";
+import { googleLogin, loginWithCredentials } from "../api/AuthAPi";
 
 interface loginProps {
   email: string;
@@ -11,13 +10,16 @@ interface loginProps {
 
 const Login = () => {
   const handleGoogleLogin = async () => {
-    signInWithPopup(auth, provider)
+    googleLogin()
       .then((user) => {
         Swal.fire({
           title: "Signed In !",
           text: "Signed In with Google ! ",
           icon: "success",
         });
+        if (user.user.email) {
+          localStorage.setItem("userEmail", user.user.email);
+        }
         console.log(user);
       })
       .catch((err) => {
@@ -31,13 +33,16 @@ const Login = () => {
   };
 
   const handleLogin = async (values: loginProps) => {
-    signInWithEmailAndPassword(auth, values.email, values.password)
+    loginWithCredentials(values)
       .then((user) => {
         Swal.fire({
           title: "Logged In Successfully",
           icon: "success",
           timer: 2000,
         });
+        if (user.user.email) {
+          localStorage.setItem("userEmail", user.user.email);
+        }
         console.log(user);
       })
       .catch((err) => {

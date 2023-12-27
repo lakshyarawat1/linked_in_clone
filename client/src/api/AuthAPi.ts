@@ -6,14 +6,14 @@ import {
 } from "firebase/auth";
 import { auth, provider } from "../../firebase";
 interface loginProps {
-  email: string;
+  email: string | null;
   password: string;
 }
 
 export const signUpWithEmail = async (values: User) => {
   const result = await createUserWithEmailAndPassword(
     auth,
-    values.email,
+    values.email!,
     values.password
   );
   console.log(result);
@@ -25,10 +25,10 @@ export const googleLogin = async () => {
   return result;
 };
 
-export const handleLogin = async (values: loginProps) => {
+export const loginWithCredentials = async (values: loginProps) => {
   const result = signInWithEmailAndPassword(
     auth,
-    values.email,
+    values.email!,
     values.password
   );
   return result;

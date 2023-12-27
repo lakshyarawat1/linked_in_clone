@@ -31,6 +31,9 @@ const Login = () => {
         });
         navigate("/feed");
         console.log(user);
+        if (values.email) {
+          localStorage.setItem("userEmail", values.email);
+        }
       })
       .catch((err) =>
         Swal.fire({
@@ -59,6 +62,9 @@ const Login = () => {
           updatedAt: "",
         });
         navigate("/feed");
+        if (user.user.email) {
+          localStorage.setItem("userEmail", user.user.email);
+        }
       })
       .catch((err) => {
         Swal.fire({

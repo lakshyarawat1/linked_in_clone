@@ -1,17 +1,23 @@
+import Navbar from "./Navbar";
 
 const Home = () => {
   return (
     <>
-      <nav className="flex items-center m-5 gap-2">
-        <h1 className="text-3xl font-bold text-[#017bb5]">Linked </h1>
-        <img src="logo.png" alt="logo" className="h-12 w-12" />
-        <button className="right-0 border border-black p-2 px-6 ml-[66%] hover:bg-black hover:text-white rounded-full">
-          <a href="/register">Sign up</a>
-        </button>{" "}
-        <button className="right-0 border border-black p-2 px-6 hover:bg-black hover:text-white rounded-full">
-          <a href="/login">Already signed up ?</a>
-        </button>
-      </nav>
+      <Navbar />
+      <div className="flex mt-24 gap-10">
+        <div className="w-1/2">
+          <h1 className="text-4xl w-2/3 font-bold text-[#017bb5] ml-10 mt-10">
+            Welcome to your professional community
+          </h1><br />
+          <h2 className="text-2xl font-bold text-[#017bb5] ml-10 mt-2">
+            Here's the best place to be
+          </h2>
+        </div>
+        <img
+          src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4"
+          className="w-1/3"
+        />
+      </div>
     </>
   );
 }

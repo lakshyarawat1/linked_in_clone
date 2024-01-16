@@ -1174,7 +1174,7 @@ const NotFound = () => {
           </linearGradient>
         </defs>
       </svg>
-      <p className="text-center mt-5 text-white">
+      <p className="text-center mt-5">
         This page does not exist.
       </p>
     </div>

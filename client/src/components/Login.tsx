@@ -2,6 +2,11 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { FaGoogle, FaLock, FaRegUser } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { googleLogin, loginWithCredentials } from "../api/AuthAPi";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
+import Loader from "./Loader";
 
 interface loginProps {
   email: string;
@@ -9,6 +14,19 @@ interface loginProps {
 }
 
 const Login = () => {
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    onAuthStateChanged(auth, (res) => {
+      if (res?.accessToken) {
+        navigate("/feed");
+      } else {
+        setLoading(false);
+      }
+    });
+  });
+
   const handleGoogleLogin = async () => {
     googleLogin()
       .then((user) => {
@@ -17,10 +35,8 @@ const Login = () => {
           text: "Signed In with Google ! ",
           icon: "success",
         });
-        if (user.user.email) {
-          localStorage.setItem("userEmail", user.user.email);
-        }
         console.log(user);
+        navigate("/feed");
       })
       .catch((err) => {
         Swal.fire({
@@ -40,10 +56,8 @@ const Login = () => {
           icon: "success",
           timer: 2000,
         });
-        if (user.user.email) {
-          localStorage.setItem("userEmail", user.user.email);
-        }
         console.log(user);
+        navigate("/feed");
       })
       .catch((err) => {
         Swal.fire({
@@ -55,7 +69,9 @@ const Login = () => {
       });
   };
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <>
       <div className="flex text-3xl m-10 text-[#017bb5] gap-1 font-bold">
         Linked <img src="/logo.png" className="w-10 h-10" alt="logo" />

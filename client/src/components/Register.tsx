@@ -4,8 +4,6 @@ import { User } from "../types/User";
 import "firebase/auth";
 import Swal from "sweetalert2";
 import { signUpWithEmail, googleLogin } from "../api/AuthAPi";
-import { postUserData } from "../api/FirebaseAPI";
-import { getUniqueId } from "../utils/getUniqueId";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -19,21 +17,8 @@ const Login = () => {
           text: "New user has been created ! ",
           icon: "success",
         });
-        postUserData({
-          id: getUniqueId(),
-          email: values.email,
-          imageLink:
-            "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-          username: values.username,
-          password: "Not accessable",
-          createdAt: Date(),
-          updatedAt: "",
-        });
-        navigate("/feed");
-        console.log(user);
-        if (values.email) {
-          localStorage.setItem("userEmail", values.email);
-        }
+        console.log(user)
+        navigate('/feed')
       })
       .catch((err) =>
         Swal.fire({
@@ -46,25 +31,14 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     googleLogin()
-      .then((user) => {
-        Swal.fire({
-          title: "User Created !",
-          text: "New user has been created ! ",
-          icon: "success",
-        });
-        postUserData({
-          id: getUniqueId(),
-          email: user.user.email,
-          imageLink: user.user.photoURL,
-          username: user.user.displayName,
-          password: "Not accessable",
-          createdAt: Date(),
-          updatedAt: "",
-        });
-        navigate("/feed");
-        if (user.user.email) {
-          localStorage.setItem("userEmail", user.user.email);
-        }
+      .then(async (user) => {
+          Swal.fire({
+            title: "User Created !",
+            text: "New user has been created ! ",
+            icon: "success",
+          });    
+        console.log(user);
+          navigate("/feed");
       })
       .catch((err) => {
         Swal.fire({

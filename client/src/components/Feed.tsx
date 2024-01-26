@@ -87,11 +87,11 @@ const Feed = () => {
               </div>
               <div className="flex gap-4 cursor-pointer">
                 <SlCalender className="text-lg mt-1 " />
-                Media
+                Event
               </div>
               <div className="flex gap-4 cursor-pointer">
                 <MdArticle className="text-lg mt-1 " />
-                Media
+                Article
               </div>
             </div>
           </div>
@@ -100,7 +100,19 @@ const Feed = () => {
             <Post />
           </div>
         </div>
-        <div className="w-1/4">Three</div>
+        <div className="w-1/4  h-full flex  ">
+          <div className="w-2/3 p-5 bg-white rounded-lg border-2">
+            <h2 className="font-bold tracking-wider">LinkedIn News</h2>
+            <ul
+              style={{ listStyle: "circle" }}
+              className="flex flex-col gap-4 p-8"
+            >
+              <li>News 1</li>
+              <li>News 2</li>
+              <li>News 3</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

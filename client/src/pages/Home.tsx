@@ -1,4 +1,4 @@
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
@@ -8,7 +8,8 @@ const Home = () => {
         <div className="w-1/2">
           <h1 className="text-4xl w-2/3 font-bold text-[#017bb5] ml-10 mt-10">
             Welcome to your professional community
-          </h1><br />
+          </h1>
+          <br />
           <h2 className="text-2xl font-bold text-[#017bb5] ml-10 mt-2">
             Here's the best place to be
           </h2>
@@ -20,6 +21,6 @@ const Home = () => {
       </div>
     </>
   );
-}
+};
 
-export default Home
+export default Home;

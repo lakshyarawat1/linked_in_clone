@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
-import Loader from "./Loader";
+import Loader from "../components/Loader";
 
 interface loginProps {
   email: string;

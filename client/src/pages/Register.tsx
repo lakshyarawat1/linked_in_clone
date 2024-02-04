@@ -5,6 +5,7 @@ import "firebase/auth";
 import Swal from "sweetalert2";
 import { signUpWithEmail, googleLogin } from "../api/AuthAPi";
 import { useNavigate } from "react-router-dom";
+import { postUserData } from "../api/FirebaseAPI";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,8 +18,17 @@ const Login = () => {
           text: "New user has been created ! ",
           icon: "success",
         });
-        console.log(user)
-        navigate('/feed')
+        postUserData({
+          username: values.username,
+          email: values.email,
+          id: user.user.uid,
+          imageLink: null,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          password: "",
+        });
+        console.log(user);
+        navigate("/feed");
       })
       .catch((err) =>
         Swal.fire({
@@ -32,13 +42,13 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     googleLogin()
       .then(async (user) => {
-          Swal.fire({
-            title: "User Created !",
-            text: "New user has been created ! ",
-            icon: "success",
-          });    
+        Swal.fire({
+          title: "User Created !",
+          text: "New user has been created ! ",
+          icon: "success",
+        });
         console.log(user);
-          navigate("/feed");
+        navigate("/feed");
       })
       .catch((err) => {
         Swal.fire({

@@ -1,4 +1,4 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import { auth } from "../../firebase";
 import Loader from "../components/Loader";
@@ -13,7 +13,7 @@ import { Button, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { FaRegSmile, FaRegStar } from "react-icons/fa";
 import { GrGallery } from "react-icons/gr";
-import { getPosts, postStatus } from "../api/FirebaseAPI";
+import { getCurrentUser, getPosts, postStatus } from "../api/FirebaseAPI";
 
 const Feed = () => {
   const [loading, setLoading] = useState(true);
@@ -38,15 +38,24 @@ const Feed = () => {
     setIsModalOpen(false);
   };
 
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleStatus = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setStatus(e.target.value);
   };
 
   useMemo(() => {
     getPosts(setAllStatus);
+    getCurrentUser();
   }, []);
-
-  console.log(popupOpen);
 
   return loading ? (
     <Loader />
@@ -100,7 +109,11 @@ const Feed = () => {
         <br />
         <hr />
         <br />
-        <Button type="default" className="w-full my-4">
+        <Button
+          type="default"
+          className="w-full my-4"
+          onClick={() => handleSignOut()}
+        >
           Sign Out
         </Button>
       </Modal>

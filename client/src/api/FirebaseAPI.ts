@@ -50,3 +50,13 @@ export const getPosts = (setAllStatus) => {
         }))
     })
 }
+
+export const getCurrentUser = () => {
+    onSnapshot(userRef, (res) => {
+        console.log( 
+            res.docs.map((doc) => {
+                return { ...doc.data(), id : doc.id }
+            })
+        )
+    })
+}

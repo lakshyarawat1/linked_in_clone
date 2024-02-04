@@ -12,7 +12,7 @@ const Post = (data) => {
           className="h-12 w-12 rounded-full"
         />
         <b className="tracking-wider">Username</b>
-        <CgOptions className="ml-[50%] cursor-pointer hover:bg-slate-100 p-3 w-12 h-12" />
+        <CgOptions className="ml-[40%] cursor-pointer hover:bg-slate-100 p-3 w-12 h-12" />
         <MdClose className=" cursor-pointer hover:bg-slate-100 p-3 w-12 h-12" />
       </div>
       <div className="text-slate-500 text-xs  mx-20">

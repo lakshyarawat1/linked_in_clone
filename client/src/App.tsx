@@ -4,19 +4,23 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Feed from "./pages/Feed";
 import NotFound from "./pages/NotFound";
+import { UserContextProvider } from "./context/userContext";
 
 function App() {
+  
   return (
     <div className="">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/feed" element={<Feed />} />
-        </Routes>
-      </BrowserRouter>
+      <UserContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/feed" element={<Feed />} />
+          </Routes>
+        </BrowserRouter>
+      </UserContextProvider>
     </div>
   );
 }

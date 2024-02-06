@@ -3,6 +3,7 @@ import { MdClose } from "react-icons/md";
 import { BiSolidLike } from "react-icons/bi";
 import { FaComment } from "react-icons/fa";
 
+
 const Post = (data) => {
   return (
     <div className="bg-white p-4 rounded-lg my-5 border-2">

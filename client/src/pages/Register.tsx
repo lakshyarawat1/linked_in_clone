@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { postUserData } from "../api/FirebaseAPI";
 
 const Login = () => {
+
   const navigate = useNavigate();
 
   const handleSubmit = async (values: User) => {
@@ -28,6 +29,7 @@ const Login = () => {
           password: "",
         });
         console.log(user);
+        sessionStorage.setItem("userEmail", values.email ?? "");
         navigate("/feed");
       })
       .catch((err) =>
@@ -48,6 +50,18 @@ const Login = () => {
           icon: "success",
         });
         console.log(user);
+        if (user.user.email) {
+          sessionStorage.setItem("userEmail", user.user.email);
+        }
+        postUserData({
+          username: user.user.displayName,
+          email: user.user.email,
+          id: user.user.uid,
+          imageLink: user.user.photoURL,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          password: "",
+        });
         navigate("/feed");
       })
       .catch((err) => {

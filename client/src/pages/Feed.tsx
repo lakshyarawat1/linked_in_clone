@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { auth } from "../../firebase";
 import Loader from "../components/Loader";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ import TextArea from "antd/es/input/TextArea";
 import { FaRegSmile, FaRegStar } from "react-icons/fa";
 import { GrGallery } from "react-icons/gr";
 import { getCurrentUser, getPosts, postStatus } from "../api/FirebaseAPI";
+import { userContext } from "../context/userContext";
 
 const Feed = () => {
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,8 @@ const Feed = () => {
   const [status, setStatus] = useState("");
   const [allStatus, setAllStatus] = useState([]);
   const [popupOpen, setPopupOpen] = useState(false);
+
+  const { setCurrentUser, currentUser } = useContext(userContext);
 
   const navigate = useNavigate();
 
@@ -54,7 +57,7 @@ const Feed = () => {
 
   useMemo(() => {
     getPosts(setAllStatus);
-    getCurrentUser();
+    getCurrentUser(setCurrentUser);
   }, []);
 
   return loading ? (
@@ -80,12 +83,9 @@ const Feed = () => {
         open={popupOpen}
       >
         <div className="flex gap-4 items-center">
-          <img
-            src="https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_1280.jpg"
-            className="h-14 w-14 rounded-full"
-          />
+          <img src={currentUser.imageLink} className="h-14 w-14 rounded-full" />
           <p className="text-lg capitalize flex flex-col">
-            userName{" "}
+            {currentUser.username}{" "}
             <span className="text-sm text-slate-400">Primary Role</span>
           </p>
         </div>
@@ -138,11 +138,8 @@ const Feed = () => {
         ]}
       >
         <div className="my-10 mx-4 flex gap-5 items-center">
-          <img
-            src="https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_1280.jpg"
-            className="h-20 w-20 rounded-full"
-          />
-          <p className="text-xl">Username</p>
+          <img src={currentUser.imageLink} className="h-20 w-20 rounded-full" />
+          <p className="text-xl"></p>
         </div>
         <TextArea
           className="w-[80%]"
@@ -166,13 +163,13 @@ const Feed = () => {
               className="h-16 w-full rounded-lg"
             />
             <img
-              src="https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_1280.jpg"
+              src={currentUser.imageLink}
               className="h-20 w-20 rounded-full mx-auto -mt-10"
             />
             <br />
             <a>
               <p className="text-center tracking-wide hover:underline">
-                Username
+                {currentUser.username}
               </p>
             </a>
             <p className="text-center text-xs mt-1 text-slate-500 tracking-wide">
@@ -203,7 +200,7 @@ const Feed = () => {
           <div className="bg-white p-3 rounded-lg border-2 ">
             <div className="flex gap-4">
               <img
-                src="https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_1280.jpg"
+                src={currentUser.imageLink}
                 className="h-14 w-14 mx-6 rounded-full"
               />
               <Search

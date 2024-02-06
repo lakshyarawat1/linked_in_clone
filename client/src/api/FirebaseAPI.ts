@@ -7,6 +7,7 @@ import { getCurrentTimeStamp } from "../utils/useMoment";
 const dbRef = collection(firestore, 'posts');
 const userRef = collection(firestore, "users");
 
+
 export const postUserData = (object : User) => {
     addDoc(userRef, object)
         .then(() => { })
@@ -43,7 +44,7 @@ export const postStatus = async (status: string): Promise<void> => {
     }
 }
 
-export const getPosts = (setAllStatus) => {
+export const getPosts = (setAllStatus: React.Dispatch<React.SetStateAction<object[]>>) => {
     onSnapshot(dbRef, (res) => {
         setAllStatus(res.docs.map((doc) => {
             return { ...doc.data(), id:doc.id };
@@ -51,12 +52,19 @@ export const getPosts = (setAllStatus) => {
     })
 }
 
-export const getCurrentUser = () => {
+export const getCurrentUser = (setCurrentUser : React.Dispatch<React.SetStateAction<object>>) => {
+    const currentEmail = sessionStorage.getItem("userEmail");
     onSnapshot(userRef, (res) => {
-        console.log( 
-            res.docs.map((doc) => {
-                return { ...doc.data(), id : doc.id }
+
+        const user  = res.docs.map((doc) => {
+                return { ...doc.data()}
             })
+                .filter((item) => {
+                    return item.email === currentEmail;
+            })[0]
+
+        setCurrentUser( 
+            user
         )
     })
 }

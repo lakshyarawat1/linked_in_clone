@@ -36,6 +36,9 @@ const Login = () => {
           icon: "success",
         });
         console.log(user);
+        if (user.user.email) {
+          sessionStorage.setItem("userEmail", user.user.email);
+        }
         navigate("/feed");
       })
       .catch((err) => {
@@ -57,6 +60,9 @@ const Login = () => {
           timer: 2000,
         });
         console.log(user);
+        if (values.email) {
+          sessionStorage.setItem("userEmail", values.email);
+        }
         navigate("/feed");
       })
       .catch((err) => {

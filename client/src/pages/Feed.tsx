@@ -9,7 +9,7 @@ import Search from "antd/es/input/Search";
 import { TiMediaFastForward } from "react-icons/ti";
 import { SlCalender } from "react-icons/sl";
 import Post from "../components/Post";
-import { Button, Modal } from "antd";
+import { Button, Image, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { FaRegSmile, FaRegStar } from "react-icons/fa";
 import { GrGallery } from "react-icons/gr";
@@ -21,7 +21,7 @@ const Feed = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState("");
   const [allStatus, setAllStatus] = useState([]);
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [popupOpen, setPopupOpen] = useState<boolean>(false);
 
   const { setCurrentUser, currentUser } = useContext(userContext);
 
@@ -112,6 +112,7 @@ const Feed = () => {
         <Button
           type="default"
           className="w-full my-4"
+          danger
           onClick={() => handleSignOut()}
         >
           Sign Out
@@ -138,7 +139,11 @@ const Feed = () => {
         ]}
       >
         <div className="my-10 mx-4 flex gap-5 items-center">
-          <img src={currentUser.imageLink} className="h-20 w-20 rounded-full" />
+          <Image
+            src={currentUser.imageLink}
+            className="h-20 w-20 rounded-full"
+            width={80}
+          />
           <p className="text-xl"></p>
         </div>
         <TextArea
@@ -156,7 +161,7 @@ const Feed = () => {
         </div>
       </Modal>
       <div className="bg-slate-100 flex py-10">
-        <div className="w-[30%]">
+        <div className="w-[30%] hidden md:block">
           <div className="w-[60%] ml-[40%] border-2 rounded-lg bg-white">
             <img
               src="https://media.istockphoto.com/id/1226864145/photo/server-room-with-server-racks-in-datacenter-banner-3d-illustration.jpg?s=612x612&w=0&k=20&c=J0I5ByWvebvd8gBoNQt5YEJgFXp4cwY4hRyVWl8_-Vw="
@@ -196,8 +201,8 @@ const Feed = () => {
             <p className="text-sm mx-4 mb-4">All Recent Activities</p>
           </div>
         </div>
-        <div className="w-[40%] mx-12 ">
-          <div className="bg-white p-3 rounded-lg border-2 ">
+        <div className="md:w-[40%] md:mx-12 w-full">
+          <div className="bg-white p-3 md:rounded-lg border-2 ">
             <div className="flex gap-4">
               <img
                 src={currentUser.imageLink}
@@ -209,16 +214,16 @@ const Feed = () => {
                 onClick={() => setIsModalOpen(true)}
               />
             </div>
-            <div className="flex gap-24 my-3 mx-[22%]">
-              <div className="flex gap-4 cursor-pointer">
+            <div className="flex my-3 md:mx-[10%]">
+              <div className="flex p-4 px-12 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
                 <TiMediaFastForward className="text-lg mt-1 " />
                 Media
               </div>
-              <div className="flex gap-4 cursor-pointer">
+              <div className="flex p-4 px-12 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
                 <SlCalender className="text-lg mt-1 " />
                 Event
               </div>
-              <div className="flex gap-4 cursor-pointer">
+              <div className="flex p-4 px-12 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
                 <MdArticle className="text-lg mt-1 " />
                 Article
               </div>
@@ -230,7 +235,7 @@ const Feed = () => {
             })}
           </div>
         </div>
-        <div className="w-1/4  h-full flex  ">
+        <div className="w-1/4 hidden md:flex h-full  ">
           <div className="w-2/3 p-5 bg-white rounded-lg border-2">
             <h2 className="font-bold tracking-wider">LinkedIn News</h2>
             <ul

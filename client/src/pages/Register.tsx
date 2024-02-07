@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Image, Input } from "antd";
 import { FaGoogle, FaLock, FaRegUser } from "react-icons/fa";
 import { User } from "../types/User";
 import "firebase/auth";
@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { postUserData } from "../api/FirebaseAPI";
 
 const Login = () => {
-
   const navigate = useNavigate();
 
   const handleSubmit = async (values: User) => {
@@ -77,9 +76,10 @@ const Login = () => {
   return (
     <>
       <div className="flex text-3xl m-10 text-[#017BB5] gap-1 font-bold">
-        Linked <img src="/logo.png" className="w-10 h-10" alt="logo" />
+        Linked{" "}
+        <Image src="/logo.png" className="w-10 h-10" width={40} alt="logo" />
       </div>
-      <div className="w-[30%] m-auto shadow-lg p-10 rounded-lg">
+      <div className="md:w-[30%] w-[90%] m-auto shadow-lg p-10 rounded-lg">
         <h4 className="text-center text-sm mt-2 text-[#017BB5] font-semibold tracking-wide">
           Create an account in LinkedIn to get Job Posts
         </h4>

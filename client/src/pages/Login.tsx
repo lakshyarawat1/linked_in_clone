@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Image, Input } from "antd";
 import { FaGoogle, FaLock, FaRegUser } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { googleLogin, loginWithCredentials } from "../api/AuthAPi";
@@ -80,9 +80,10 @@ const Login = () => {
   ) : (
     <>
       <div className="flex text-3xl m-10 text-[#017bb5] gap-1 font-bold">
-        Linked <img src="/logo.png" className="w-10 h-10" alt="logo" />
+        Linked{" "}
+        <Image src="/logo.png" width={40} className="w-10 h-10" alt="logo" />
       </div>
-      <div className="w-[30%] m-auto shadow-lg p-10 rounded-lg">
+      <div className="md:w-[30%] w-[90%] m-auto shadow-lg p-10 rounded-lg">
         <h4 className="text-center text-sm mt-2 text-[#017BB5] font-semibold tracking-wide">
           Login to LinkedIn to get Job Posts
         </h4>

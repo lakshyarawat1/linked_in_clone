@@ -1,22 +1,38 @@
+import { Button, Image, Typography } from "antd";
 import Navbar from "../components/Navbar";
+
+const { Text, Title } = Typography;
 
 const Home = () => {
   return (
     <>
       <Navbar />
-      <div className="flex mt-24 gap-10">
-        <div className="w-1/2">
-          <h1 className="text-4xl w-2/3 font-bold text-[#017bb5] ml-10 mt-10">
+      <div className="md:flex mt-24 gap-10">
+        <div className="md:w-1/2">
+          <Title className=" w-2/3 font-semibold text-[#017bb5] md:ml-20 mx-auto mt-10">
             Welcome to your professional community
-          </h1>
+          </Title>
           <br />
-          <h2 className="text-2xl font-bold text-[#017bb5] ml-10 mt-2">
+          <Text className="text-2xl text-[#017bb5] md:ml-24 mx-4 mt-2">
             Here's the best place to be
-          </h2>
+          </Text>
+          <div>
+            <Button
+              type="default"
+              className="w-3/4 m-10"
+              size="large"
+              href="/register"
+              target="/register"
+            >
+              <a href="/register">Join now</a>
+            </Button>
+          </div>
         </div>
-        <img
+        <Image
+          alt="linkedin-logo"
+          preview={false}
           src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4"
-          className="w-1/3"
+          className="w-1/2"
         />
       </div>
     </>

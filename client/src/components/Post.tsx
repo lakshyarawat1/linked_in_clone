@@ -3,11 +3,10 @@ import { MdClose } from "react-icons/md";
 import { BiSolidLike } from "react-icons/bi";
 import { FaComment } from "react-icons/fa";
 
-
 const Post = (data) => {
   return (
     <div className="bg-white p-4 rounded-lg my-5 border-2">
-      <div className="flex gap-10 items-center">
+      <div className="flex md:gap-10 gap-2 items-center">
         <img
           src="https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_1280.jpg"
           className="h-12 w-12 rounded-full"
@@ -22,12 +21,12 @@ const Post = (data) => {
       </div>
       <div className="text-sm text-slate-600 mx-8 my-6">
         <p>{data.data.status}</p>
-        <div className="flex gap-[20%] justify-center my-6">
-          <span className="flex gap-5 items-center hover:bg-slate-100 px-10 py-2 cursor-pointer">
+        <div className="flex justify-center my-6">
+          <span className="flex gap-5 w-1/2  items-center hover:bg-slate-100 md:px-20 px-10 hover:scale-110 py-2 cursor-pointer">
             <BiSolidLike />
             Like
           </span>
-          <span className="flex gap-5 items-center hover:bg-slate-100 px-10 py-2 cursor-pointer">
+          <span className="flex gap-5 w-1/2  items-center hover:bg-slate-100 md:px-20 px-10 hover:scale-110 py-2 cursor-pointer">
             <FaComment />
             Comment
           </span>

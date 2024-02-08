@@ -1,11 +1,13 @@
 import firebase from "firebase/compat/app";
 import { Activity } from "./Activities";
+import { Experience } from "./Experience";
 
-export type User = {
+type Profile = {
   id: string;
   username: string | null;
   displayName: string | null;
-  bio : string | null;
+  bio: string | null;
+  role: string;
   email: string | null;
   profileImage: string | null;
   coverImage: string | null;
@@ -24,3 +26,19 @@ export type User = {
   following: string[];
   recentActivities: Activity[];
 };
+
+export type User = Profile & {
+  experience: Experience[];
+  educatiom: Experience[];
+  skills: string[];
+  certifications : string[],
+}
+
+export type Company = Profile & {
+  employees: string[];
+  companyType: string;
+  companySize: string;
+  location: string;
+  website: string;
+  founded: string;
+}

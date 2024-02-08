@@ -89,9 +89,11 @@ const Feed = () => {
             <span className="text-sm text-slate-400">Primary Role</span>
           </p>
         </div>
-        <Button type="default" className="w-full my-4">
-          View Profile
-        </Button>
+        <a href="/profile">
+          <Button type="default" className="w-full my-4">
+            View Profile
+          </Button>
+        </a>
         <hr />
         <br />
         <div>

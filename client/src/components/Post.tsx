@@ -4,13 +4,12 @@ import { BiSolidLike } from "react-icons/bi";
 import { FaComment } from "react-icons/fa";
 
 const Post = (data) => {
+  console.log(data);
+
   return (
     <div className="bg-white p-4 rounded-lg my-5 border-2">
       <div className="flex md:gap-10 gap-2 items-center">
-        <img
-          src="https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_1280.jpg"
-          className="h-12 w-12 rounded-full"
-        />
+        <img src={data.data.profileImage} className="h-12 w-12 rounded-full" />
         <b className="tracking-wider">Username</b>
         <CgOptions className="ml-[40%] cursor-pointer hover:bg-slate-100 p-3 w-12 h-12" />
         <MdClose className=" cursor-pointer hover:bg-slate-100 p-3 w-12 h-12" />

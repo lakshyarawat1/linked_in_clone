@@ -13,17 +13,23 @@ import { Button, Image, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { FaRegSmile, FaRegStar } from "react-icons/fa";
 import { GrGallery } from "react-icons/gr";
-import { getCurrentUser, getPosts, postStatus } from "../api/FirebaseAPI";
+import { getCurrentUser, getPosts, postPosts } from "../api/FirebaseAPI";
 import { userContext } from "../context/userContext";
+import { Posts } from "../types/Posts";
 
 const Feed = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState("");
+  const [title, setTitle] = useState("");
+  const [tags, setTags] = useState("");
   const [allStatus, setAllStatus] = useState([]);
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
+  const [post, setPost] = useState<Posts>();
 
   const { setCurrentUser, currentUser } = useContext(userContext);
+
+  console.log(currentUser);
 
   const navigate = useNavigate();
 
@@ -55,6 +61,14 @@ const Feed = () => {
     setStatus(e.target.value);
   };
 
+  const handleTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleTags = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTags(e.target.value);
+  };
+
   useMemo(() => {
     getPosts(setAllStatus);
     getCurrentUser(setCurrentUser);
@@ -83,7 +97,10 @@ const Feed = () => {
         open={popupOpen}
       >
         <div className="flex gap-4 items-center">
-          <img src={currentUser.imageLink} className="h-14 w-14 rounded-full" />
+          <img
+            src={currentUser.profileImage}
+            className="h-14 w-14 rounded-full"
+          />
           <p className="text-lg capitalize flex flex-col">
             {currentUser.username}{" "}
             <span className="text-sm text-slate-400">Primary Role</span>
@@ -126,40 +143,60 @@ const Feed = () => {
         onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
         width={800}
-        footer={[
-          <Button
-            key="submit"
-            type="default"
-            disabled={status.length > 0 ? false : true}
-            onClick={() => {
-              postStatus(status);
-              setIsModalOpen(false);
-            }}
-          >
-            Post
-          </Button>,
-        ]}
+        footer={
+          [
+            <Button
+              key="submit"
+              type="default"
+              disabled={status.length > 0 ? false : true}
+              onClick={() => {
+                postPosts({
+                  title: status,
+                  userId: currentUser.id,
+                  content: title,
+                  tags: tags,
+                });
+                setIsModalOpen(false);
+              }}
+            >
+              Post
+            </Button>,
+          ]
+        }
       >
         <div className="my-10 mx-4 flex gap-5 items-center">
           <Image
-            src={currentUser.imageLink}
+            src={currentUser.profileImage}
             className="h-20 w-20 rounded-full"
             width={80}
           />
           <p className="text-xl"></p>
         </div>
         <TextArea
-          className="w-[80%]"
+          className="w-[80%] my-2"
           autoSize
           autoFocus
-          placeholder="Write your post ... "
+          placeholder="Title ... "
           onChange={(e) => handleStatus(e)}
         />
-        <FaRegSmile className="p-2 m-3 text-4xl hover:bg-slate-100" />
+        <TextArea
+          className="w-[80%]"
+          autoFocus
+          placeholder="Write your post ... "
+          onChange={(e) => handleTitle(e)}
+        />
+        <TextArea
+          className="w-[80%] my-2"
+          autoFocus
+          autoSize
+          placeholder="Tags .."
+          onChange={(e) => handleTags(e)}
+        />
+        <FaRegSmile className="w-12 h-12 rounded-lg p-3 m-3 text-4xl hover:bg-slate-100  hover:scale-110 " />
         <div className="flex gap-5 mx-3 text-4xl">
-          <GrGallery className="p-2 hover:bg-slate-100" />
-          <MdArticle className="p-2 hover:bg-slate-100" />
-          <FaRegStar className="p-2 hover:bg-slate-100" />
+          <GrGallery className="w-12 h-12 rounded-lg p-3 hover:bg-slate-100  hover:scale-110 " />
+          <MdArticle className="w-12 h-12 rounded-lg p-3 hover:bg-slate-100 hover:scale-110" />
+          <FaRegStar className="w-12 h-12 rounded-lg p-3 hover:bg-slate-100 hover:scale-110" />
         </div>
       </Modal>
       <div className="bg-slate-100 flex py-10">
@@ -170,7 +207,7 @@ const Feed = () => {
               className="h-16 w-full rounded-lg"
             />
             <img
-              src={currentUser.imageLink}
+              src={currentUser.profileImage}
               className="h-20 w-20 rounded-full mx-auto -mt-10"
             />
             <br />
@@ -207,7 +244,7 @@ const Feed = () => {
           <div className="bg-white p-3 md:rounded-lg border-2 ">
             <div className="flex gap-4">
               <img
-                src={currentUser.imageLink}
+                src={currentUser.profileImage}
                 className="h-14 w-14 mx-6 rounded-full"
               />
               <Search
@@ -216,16 +253,16 @@ const Feed = () => {
                 onClick={() => setIsModalOpen(true)}
               />
             </div>
-            <div className="flex my-3 md:mx-[10%]">
-              <div className="flex p-4 px-12 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
+            <div className="md:flex my-3 text-center md:mx-[10%]">
+              <div className="flex p-4 md:mx-auto px-[30%] md:px-12 gap-2 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
                 <TiMediaFastForward className="text-lg mt-1 " />
                 Media
               </div>
-              <div className="flex p-4 px-12 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
+              <div className="flex p-4 md:mx-auto px-[30%] md:px-12 gap-2 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
                 <SlCalender className="text-lg mt-1 " />
                 Event
               </div>
-              <div className="flex p-4 px-12 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
+              <div className="flex p-4 md:mx-auto px-[30%] md:px-12 gap-2 rounded-lg hover:scale-110 cursor-pointer hover:bg-slate-100">
                 <MdArticle className="text-lg mt-1 " />
                 Article
               </div>

@@ -3,6 +3,8 @@ import { firestore } from "../../firebase";
 import { User } from "../types/User";
 import Swal from "sweetalert2";
 import { getCurrentTimeStamp } from "../utils/useMoment";
+import { Posts } from "../types/Posts";
+import { getUniqueId } from "../utils/getUniqueId";
 
 const dbRef = collection(firestore, 'posts');
 const userRef = collection(firestore, "users");
@@ -27,14 +29,30 @@ export const getSingleUser = async (email: unknown) => {
     });
 };
 
-export const postStatus = async (status: string): Promise<void> => {
-    
-    const object = {
-        status: status,
-        timestamp: getCurrentTimeStamp('lll')
+export const postPosts = async (post: object) => {
+    const { title, userId, content, tags } = post;
+
+    const object : Posts = {
+        id: getUniqueId(),
+        userId, 
+        title,
+        content,
+        imageLink: "",
+        videoLink: "",
+        createdAt: getCurrentTimeStamp('lll'),
+        updatedAt: getCurrentTimeStamp('lll'),
+        likes: [],
+        comments: [],
+        shares: [],
+        privacySettings: 'public',
+        tags,
+        location: '',
+        pinned: false,
+        taggedUsers : []
     }
 
     const res = await addDoc(dbRef, object);
+
     if (res) {
         Swal.fire({
             icon: 'success',
@@ -42,7 +60,33 @@ export const postStatus = async (status: string): Promise<void> => {
             text: 'Your status has been posted successfully',
         })
     }
+    else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occured while posting your status',
+        })
+    
+    }
 }
+    
+
+// export const postStatus = async (status: string): Promise<void> => {
+    
+//     const object = {
+//         status: status,
+//         timestamp: getCurrentTimeStamp('lll')
+//     }
+
+//     const res = await addDoc(dbRef, object);
+//     if (res) {
+//         Swal.fire({
+//             icon: 'success',
+//             title: 'Status Posted',
+//             text: 'Your status has been posted successfully',
+//         })
+//     }
+// }
 
 export const getPosts = (setAllStatus: React.Dispatch<React.SetStateAction<object[]>>) => {
     onSnapshot(dbRef, (res) => {

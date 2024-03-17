@@ -1,15 +1,14 @@
-import firebase from "firebase/compat/app";
 import { Comment } from "./Comments";
 
-export type Post = {
+export type Posts = {
     id: string;
     userId: string;
     title: string;
     content: string;
     imageLink: string | null;
     videoLink: string | null;
-    createdAt: firebase.firestore.Timestamp;
-    updatedAt: firebase.firestore.Timestamp;
+    createdAt: string;
+    updatedAt: string;
     likes: string[];
     comments: Comment[] | null;
     shares: string[];
